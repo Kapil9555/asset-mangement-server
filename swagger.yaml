@@ -1,0 +1,460 @@
+openapi: 3.0.0
+info:
+  title: T4L E-Commerce API
+  version: 1.0.0
+  description: API documentation for your e-commerce backend
+
+servers:
+  - url: http://4.247.137.97:5000/api
+
+paths:
+  /products:
+    get:
+      summary: Get all products
+      tags: [Products]
+      parameters:
+        - in: query
+          name: keyword
+          schema:
+            type: string
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: limit
+          schema:
+            type: integer
+        - in: query
+          name: category
+          schema:
+            type: string
+        - in: query
+          name: sort
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of products
+
+    post:
+      summary: Create a new product
+      tags: [Products]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: Product created
+
+  /products/{id}:
+    get:
+      summary: Get a product by ID
+      tags: [Products]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Product found
+
+    put:
+      summary: Update a product
+      tags: [Products]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Product updated
+
+    delete:
+      summary: Delete a product
+      tags: [Products]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Product deleted
+
+  /products/{id}/reviews:
+    post:
+
+  /users/register:
+    post:
+      summary: Register a new user
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: { type: string }
+                email: { type: string }
+                password: { type: string }
+      responses:
+        '201': { description: User registered }
+  /users/login:
+    post:
+      summary: Login a user
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email: { type: string }
+                password: { type: string }
+      responses:
+        '200': { description: Logged in }
+  /users/profile:
+    get:
+      summary: Get current user profile
+      tags: [Users]
+      responses:
+        '200': { description: Profile data }
+    put:
+      summary: Update user profile
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: { type: string }
+                email: { type: string }
+                password: { type: string }
+                currentPassword: { type: string }
+      responses:
+        '200': { description: Profile updated }
+  /orders:
+    post:
+      summary: Create an order
+      tags: [Orders]
+      responses:
+        '201': { description: Order created }
+  /orders/myorders:
+    get:
+      summary: Get logged in user's orders
+      tags: [Orders]
+      responses:
+        '200': { description: List of orders }
+  /orders/all:
+    get:
+      summary: Get all orders (admin)
+      tags: [Orders]
+      responses:
+        '200': { description: All orders for admin }
+  /orders/{id}:
+    get:
+      summary: Get order by ID
+      tags: [Orders]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Single order }
+  /orders/{id}/deliver:
+    put:
+      summary: Mark order as delivered
+      tags: [Orders]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Order delivered }
+  /products/{id}/reviews:
+    post:
+      summary: Add a review to a product
+      tags: [Products]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rating: { type: number }
+                comment: { type: string }
+      responses:
+        '201': { description: Review added }
+      summary: Add a review to a product
+      tags: [Products]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rating:
+                  type: number
+                comment:
+                  type: string
+      responses:
+        '201':
+          description: Review added
+
+  /products/top:
+    get:
+      summary: Get top-rated products
+      tags: [Products]
+      responses:
+        '200':
+          description: List of top products
+
+  /users/register:
+    post:
+      summary: Register a new user
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User registered
+
+  /users/login:
+    post:
+      summary: Log in a user
+      tags: [Users]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login successful
+
+  /users/logout:
+    get:
+      summary: Log out the current user
+      tags: [Users]
+      responses:
+        '200':
+          description: Logout successful
+
+  /users/profile:
+    get:
+      summary: Get user profile
+      tags: [Users]
+      responses:
+        '200':
+          description: User profile
+
+    put:
+      summary: Update user profile
+      tags: [Users]
+      responses:
+        '200':
+          description: Profile updated
+
+  /users:
+    get:
+      summary: Get all users (admin only)
+      tags: [Users]
+      responses:
+        '200':
+          description: List of users
+
+  /users/{id}:
+    delete:
+      summary: Delete a user (admin only)
+      tags: [Users]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User deleted
+
+    put:
+      summary: Update a user (admin only)
+      tags: [Users]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User updated
+
+  /orders:
+    post:
+      summary: Create a new order
+      tags: [Orders]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderInput'
+      responses:
+        '201':
+          description: Order created
+
+  /orders/myorders:
+    get:
+      summary: Get current user's orders
+      tags: [Orders]
+      responses:
+        '200':
+          description: List of user's orders
+
+  /orders/all:
+    get:
+      summary: Get all orders (admin only)
+      tags: [Orders]
+      responses:
+        '200':
+          description: List of all orders
+
+  /orders/{id}:
+    get:
+      summary: Get order by ID
+      tags: [Orders]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Order detail
+
+  /orders/{id}/deliver:
+    put:
+      summary: Mark order as delivered (admin only)
+      tags: [Orders]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Order marked as delivered
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+        description:
+          type: string
+        brand:
+          type: string
+        category:
+          type: string
+        countInStock:
+          type: number
+        image:
+          type: string
+
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+
+    OrderInput:
+      type: object
+      required:
+        - orderItems
+        - shippingAddress
+        - paymentMethod
+        - totalPrice
+      properties:
+        orderItems:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              qty:
+                type: number
+              price:
+                type: number
+              product:
+                type: string
+        shippingAddress:
+          type: object
+          properties:
+            address:
+              type: string
+            city:
+              type: string
+            postalCode:
+              type: string
+            country:
+              type: string
+        paymentMethod:
+          type: string
+        itemsPrice:
+          type: number
+        shippingPrice:
+          type: number
+        taxPrice:
+          type: number
+        totalPrice:
+          type: number

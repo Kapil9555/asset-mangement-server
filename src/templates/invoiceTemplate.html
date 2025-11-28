@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tax Invoice - {{order.invoiceNumber}}</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      /* padding: 20px; */
+      background: #fff;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .invoice-container {
+      /* border: 1px solid #e5e7eb; */
+      /* padding: 24px; */
+      margin: auto;
+      /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); */
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+      border-bottom: 2px solid #3E57A7;
+      padding-bottom: 10px;
+    }
+
+    .company-details {
+      max-width: 60%;
+    }
+
+    .company-details h2 {
+      margin: 0 0 5px;
+      font-size: 20px;
+      color: #3E57A7;
+    }
+
+    .company-details p {
+      margin: 2px 0;
+      color: #555;
+    }
+
+    .tax-invoice {
+      text-align: right;
+    }
+
+    .tax-invoice .original-box {
+      border: 1px solid #3E57A7;
+      padding: 3px 10px;
+      font-size: 10px;
+      display: inline-block;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      color: #3E57A7;
+    }
+
+    .tax-invoice h1 {
+      font-size: 24px;
+      margin: 0;
+      color: #3E57A7;
+    }
+
+    .details-grid {
+      display: flex;
+      border: 1px solid #e5e7eb;
+    }
+
+    .details-left, .details-right {
+      padding: 12px;
+      flex: 1;
+    }
+
+    .details-left {
+      border-right: 1px solid #e5e7eb;
+    }
+
+    .bill-ship {
+      display: flex;
+      border: 1px solid #e5e7eb;
+      margin-top: 20px;
+    }
+
+    .bill-to, .ship-to {
+      flex: 1;
+      padding: 12px;
+    }
+
+    .bill-to {
+      border-right: 1px solid #e5e7eb;
+    }
+
+    .section-title {
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: #3E57A7;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .bold {
+      font-weight: 600;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #e5e7eb;
+    }
+
+    thead th {
+      background-color: #3E57A7;
+      color: white;
+      font-weight: 600;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f9fafb;
+    }
+
+    .summary-container {
+      display: flex;
+    
+      border: 1px solid #e5e7eb;
+      border-top: none;
+    }
+
+    .summary-left {
+      flex: 1;
+      padding: 16px;
+      border-right: 1px solid #e5e7eb;
+      font-size: 13px;
+    }
+
+    .summary-right {
+      flex: 1;
+      /* padding: 16px; */
+    }
+
+    .summary-right table {
+      font-size: 14px;
+      width: 100%;
+    }
+
+    .summary-right td {
+      /* padding: 6px 0; */
+    }
+
+    .summary-right td:first-child {
+      color: #444;
+      /* border: 1px solid red; */
+    }
+
+    .summary-right td:last-child {
+      text-align: right;
+      font-weight: 500;
+      /* border: 1px solid red; */
+    }
+
+    .signature-box {
+      margin-top: 40px;
+    }
+
+    .signature-stamp {
+      height: 100px;
+      position: relative;
+    }
+
+    .signature-stamp img {
+      height: 80px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0.5;
+    }
+
+    .signature-stamp p {
+      margin-top: 60px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="invoice-container">
+    <!-- Header -->
+    <div class="header">
+      <div class="company-details">
+        <div style="font-size: 14px; line-height: 1.6;">
+<img src="{{logo}}" alt="Company Logo" style="height: 60px; margin-bottom: 10px;" />
+
+  <div><h2>{{order.company.name}}</h2></div>
+  {{order.company.addressLine1}}<br />
+  {{order.company.addressLine2}}<br />
+  {{order.company.city}}, {{order.company.state}} - {{order.company.pincode}}<br />
+  GSTIN: {{order.company.gstNumber}}<br />
+  Phone: {{order.company.phone}}<br />
+  Email: {{order.company.email}}
+</div>
+
+      </div>
+      <div class="tax-invoice">
+        <!-- <div class="original-box">ORIGINAL</div> -->
+        <h1>TAX INVOICE</h1>
+      </div>
+    </div>
+
+    <!-- Invoice Details -->
+    <div class="details-grid">
+      <div class="details-left">
+        <p><span class="bold">Invoice Number#</span> : {{order.invoiceNumber}}</p>
+        <p><span class="bold">Invoice Date</span> : {{order.date}}</p>
+         <p><span class="bold">Payment Method</span> : {{order.paymentMethod}}</p>
+    <p><span class="bold">Payment Status</span> : {{order.paymentStatus}}</p>
+      </div>
+      <div class="details-right">
+        <p><span class="bold">Place Of Supply</span> : {{order.placeOfSupply}}</p>
+      </div>
+    </div>
+
+    <!-- Bill To / Ship To -->
+    <div class="bill-ship">
+      <div class="bill-to">
+        <div class="section-title">Bill To</div>
+        <p class="bold">{{order.user.company.name}}</p>
+        <p>{{order.billingAddress.street}}</p>
+        <p>{{order.billingAddress.city}}, {{order.billingAddress.state}}</p>
+        <p>{{order.billingAddress.pinCode}}, {{order.billingAddress.country.label}}</p>
+        <p>GSTIN: {{order.billingAddress.gstNumber}}</p>
+      </div>
+      <div class="ship-to">
+        <div class="section-title">Ship To</div>
+        <p class="bold">{{order.user.company.name}}</p>
+        <p>{{order.shippingAddress.street}}</p>
+        <p>{{order.shippingAddress.city}}, {{order.shippingAddress.state}}</p>
+        <p>{{order.shippingAddress.pinCode}}, {{order.shippingAddress.country.label}}</p>
+        <p>GSTIN: {{order.shippingAddress.gstNumber}}</p>
+      </div>
+    </div>
+
+    <!-- Item Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Item & Description</th>
+          <th>HSN/SAC</th>
+          <th>Qty</th>
+          <th>Rate</th>
+          <th>GST%</th>
+          <th>GST Amt</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each order.items}}
+        <tr>
+          <td style="text-align:center;">{{@index}}</td>
+          <td><strong>{{this.name}}</strong><br />{{this.description}}</td>
+          <td style="text-align:center;">{{this.hsn}}</td>
+          <td style="text-align:center;">{{this.qty}}</td>
+          <td style="text-align:right;">{{this.rate}}</td>
+          <td style="text-align:center;">{{this.taxPercent}}%</td>
+          <td style="text-align:right;">{{this.taxAmount}}</td>
+          <td style="text-align:right;">{{this.total}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
+    <!-- Totals & Footer -->
+    <div class="summary-container">
+      <div class="summary-left">
+        <p><strong>Total In Words:</strong></p>
+        <p><em>{{order.totalInWords}}</em></p>
+
+        <p style="margin-top: 20px;"><strong>Notes</strong></p>
+        <p>Thank you for your business.</p>
+
+        <!-- <p style="margin-top: 20px;"><strong>Bank Details:</strong></p>
+        <p><strong>Company Name:</strong> Tech 4 Logic Pvt Ltd.</p>
+        <p><strong>Bank Name:</strong> HDFC Bank Ltd.</p>
+        <p><strong>A/c No.:</strong> 59200010072015</p>
+        <p><strong>IFSC Code:</strong> HDFC0009382</p>
+        <p><strong>Branch:</strong> PIONEER SQUARE SECTOR - 62, GURGAON</p>
+
+        <p style="margin-top: 20px;"><strong>Terms & Conditions</strong></p>
+        <p>1. Interest @24% p.a. if payment not made on time.</p>
+        <p>2. TDS declaration applies per Notification 21/2012.</p> -->
+      </div>
+
+      <div class="summary-right" style="padding: 0px;">
+        <table >
+  <tr><td>GST Total</td><td>₹{{order.totals.gst}}</td></tr>
+
+
+
+  <tr><td>Platform Fee ({{order.platformFee.rate}}%)</td><td>₹{{order.platformFee.amount}}</td></tr>
+  <tr><td>Delivery Charge</td><td>₹{{order.totals.deliveryCharge}}</td></tr>
+  <!-- <tr><td>Rounding</td><td>₹{{order.totals.rounding}}</td></tr> -->
+  <tr><td>Sub Total (Incl. GST)</td><td>₹{{order.totals.subTotal}}</td></tr>
+    {{#if order.discountAmount}}
+    <tr>
+      <td>Discount 
+      </td>
+      <td>-₹{{order.discountAmount}}</td>
+    </tr>
+  {{/if}}
+  <tr><td><strong>Total</strong></td><td><strong>₹{{order.totals.grandTotal}}</strong></td></tr>
+  <!-- <tr><td><strong>Balance Due</strong></td><td><strong>₹{{order.totals.grandTotal}}</strong></td></tr> -->
+</table>
+
+      </div>
+    </div>
+
+     <!-- System-generated note -->
+    <div style="margin-top: 40px; text-align: center; font-size: 12px; color: #666;">
+      <em>This is a system-generated invoice.</em>
+    </div>
+  </div>
+
+</body>
+</html>
