@@ -1,0 +1,29 @@
+PORT="port number where server will run"
+CLIENT_URL="your frontend url"
+MONGO_URI="you database connection uri for mongodb"
+
+
+JWT_SECRET="Your JWT_Secret"
+
+
+NODE_ENV="Production"
+
+
+
+# AZURE_ACCOUNT_NAME=tech4logicstorewebsite
+
+
+AZURE_ACCOUNT_NAME = "azure storage account name"
+
+AZURE_SECRET_ACCESS_KEY = "your azure secret access key"
+
+
+AZURE_CONTAINER_NAME = "your azure container name"
+
+
+
+
+
+
+ADMIN_EMAIL="Your admin email"
+ADMIN_PASSWORD="Your admin password"
